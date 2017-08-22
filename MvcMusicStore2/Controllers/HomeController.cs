@@ -9,9 +9,9 @@ namespace MvcMusicStore2.Controllers
     public class HomeController : Controller
     {
         // GET: Home
-        public string Index()
+        public ActionResult Index()
         {
-            return "Hello from Home";
+            return View();
         }
     }
 }
