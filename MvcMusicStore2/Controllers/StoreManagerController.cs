@@ -41,7 +41,6 @@ namespace MvcMusicStore2.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create(Album album)
         {
             if (ModelState.IsValid)
@@ -65,10 +64,7 @@ namespace MvcMusicStore2.Controllers
             }
 
         // POST: StoreManager/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit(Album album)
         {
             if (ModelState.IsValid)
@@ -91,22 +87,12 @@ namespace MvcMusicStore2.Controllers
 
         // POST: StoreManager/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             Album album = db.Albums.Find(id);
             db.Albums.Remove(album);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }
