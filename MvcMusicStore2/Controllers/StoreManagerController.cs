@@ -11,7 +11,6 @@ using MvcMusicStore2.Models;
 namespace MvcMusicStore2.Controllers
 {
     //Step 7 Add in Authorization for Store Manager
-    //404, come back to at end
     [Authorize(Roles = "Administrator")]
     public class StoreManagerController : Controller
     {

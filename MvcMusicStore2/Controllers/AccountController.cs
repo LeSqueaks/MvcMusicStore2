@@ -13,28 +13,45 @@ namespace MvcMusicStore2.Controllers
     {
 
         //
-        // GET: /Account/LogOn
+        // GET: /Account/LogIn
 
-        public ActionResult LogOn()
+        public ActionResult LogIn()
         {
-            return View();
+                return View();
         }
 
         //
-        // POST: /Account/LogOn
+        // POST: /Account/LogIn
 
         [HttpPost]
-        public ActionResult LogOn(LogOnModel model, string returnUrl)
+        public ActionResult LogIn(LogInModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
                 if (Membership.ValidateUser(model.UserName, model.Password))
                 {
+                    //Step 9
+                    MigrateShoppingCart(model.UserName);
+
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+
                     if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                         && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                     {
+                        //First BP
+                        //when you use the string "www.google.com" it comes to account\www.google.com
+                        //*
                         return Redirect(returnUrl);
+                        //Originally just: return Redirect(returnUrl);
+                        //if (!User.Identity.IsAuthenticated)
+                        //{
+                          //  return Redirect("Error:UserIsNotAuthenticated");
+                        //}
+                        //else
+                        //{
+                          //  return RedirectToAction("Index", "ShoppingCart");
+                        //}
+                        //*
                     }
                     else
                     {
@@ -83,6 +100,11 @@ namespace MvcMusicStore2.Controllers
 
                 if (createStatus == MembershipCreateStatus.Success)
                 {
+                    //Step 9
+                    MigrateShoppingCart(model.UserName);
+
+                    //Sets auth cookie that is not saved across browser sessions
+                    //?? Set to true to test-didn't work
                     FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);
                     return RedirectToAction("Index", "Home");
                 }
@@ -148,6 +170,17 @@ namespace MvcMusicStore2.Controllers
         public ActionResult ChangePasswordSuccess()
         {
             return View();
+        }
+
+        //Step 9
+        private void MigrateShoppingCart(string UserName)
+        {
+            //Gets the shopping cart
+            var cart = ShoppingCart.GetCart(this.HttpContext);
+
+
+            cart.MigrateCart(UserName);
+            Session[ShoppingCart.CartSessionKey] = UserName;
         }
 
         #region Status Codes

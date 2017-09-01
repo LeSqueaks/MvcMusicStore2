@@ -175,6 +175,7 @@ namespace MvcMusicStore2.Models
         // be associated with their username
         public void MigrateCart(string userName)
         {
+            //
             var shoppingCart = storeDB.Carts.Where(c => c.CartId == ShoppingCartId);
             foreach (Cart item in shoppingCart)
             {

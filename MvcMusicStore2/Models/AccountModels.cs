@@ -7,6 +7,7 @@ using System.Web.Security;
 
 namespace MvcMusicStore2.Models
 {
+    //Account Models class copied in at Step 7
 
     public class ChangePasswordModel
     {
@@ -24,12 +25,12 @@ namespace MvcMusicStore2.Models
         [DataType(DataType.Password)]
         [Display(Name = "Confirm new password")]
         //Originally Compare, now changed.
-        //Come back too is issues.
+        //Come back too if issues.
         [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 
-    public class LogOnModel
+    public class LogInModel
     {
         [Required]
         [Display(Name = "User name")]
